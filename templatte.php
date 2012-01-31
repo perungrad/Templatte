@@ -23,9 +23,6 @@
  */
 
 ######################################################################
-if (!defined("__TEMPLATTE_PHP__")) {
-define("__TEMPLATTE_PHP__",                       1);
-
 if (!defined('TEMPLATTE_DIR')) {
     define('TEMPLATTE_DIR', 'tpl');
 }
@@ -36,7 +33,7 @@ if (!defined('TEMPLATTE_EXT')) {
 
 ######################################################################
 /**
- * Base class of simple template engine.
+ * Base class of the simple template engine.
  */
 class Templatte {
     /**
@@ -114,7 +111,7 @@ class Templatte {
      *
      * Second argument is an associative array containing options for this single instance of Templatte.
      * These options can be:
-     * type   - Specifies type of the first argument. Possible values: 'string', 'file'. Anything else defaults fo 'file'.
+     * type   - Specifies the type of the first argument. Possible values: 'string', 'file'. Anything else defaults fo 'file'.
      * dir    - directory in which the engine will lookup for files. Default: @see TEMPLATTE_DIR
      * ext    - extension fo template files. Default: @see TEMPLATTE_EXT
      * params - automatically process PARAM_ and PARVAL_ patterns. Possible values: true, false. Default: true. @see Templatte::replace_params
@@ -792,9 +789,6 @@ if (!class_exists('tpl')) {
 if (!class_exists('peruntpl')) {
     class peruntpl extends Templatte {
     }
-}
-
-######################################################################
 }
 
 ######################################################################
