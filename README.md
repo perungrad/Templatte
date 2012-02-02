@@ -2,7 +2,7 @@ Templatté
 ==========
 
 Templatté (pronounced [templatte:]) is yet another PHP templating engine.
-It uses template files with simple replace patterns, supports conditions, loops
+It uses template files with simple replace-patterns, supports conditions, loops
 and some neat tricks.
 
 Installation
@@ -11,17 +11,17 @@ Installation
 Just copy the file somewhere in your PHP include path or your project
 directory.
 
-Templatté in default configuration looks for template files in the `tpl` directory
-and with file extension `.tpl`.
+When looking for template files, Templatté looks by default for files with the file extension `.tpl` located in the `tpl` directory.
+So, for example: new perunTPl('sub/example') will look for the file "tpl/sub/example.tpl".
 You can change this behavior either globally by setting the constants `TEMPLATTE_DIR`
-and `TEMPLATTE_EXT`, or for each instance by settings options to the constructor.
+and `TEMPLATTE_EXT`, or individually for each instance by settings options of the constructor.
 
 Usage examples
 --------------
 
 ### Types of patterns ###
 
-Templates uses a few types of patterns. This is just a list:
+Templatté uses a few pattern types. Currently, there are these patterns available:
 
   1. simple patterns
     * `{NAME}`
@@ -30,7 +30,7 @@ Templates uses a few types of patterns. This is just a list:
     * `<if!:logged>...</if!:logged>`
   3. loops
     * `<repeat:articles>`
-  4. `L:` or language pattern
+  4. language pattern (`L:` pattern)
     * `{L:Hello}`
   5. `PARAM_` pattern
     * `{PARAM_USR_ID}`
@@ -40,16 +40,16 @@ Templates uses a few types of patterns. This is just a list:
   7. `URL:` pattern
     * `{URL:/article/detail/5-reasons-to-use-templatte}`
 
-### Some rules: ###
+### Some basic rules: ###
 
-  * You can call bind (and repeat) method multiple times
-  * Once you call get() or use a instance in the string context,
+  * You can call the `bind` (and `repeat`) method multiple times
+  * Once you call `get()` or use a instance in the string context,
     the template is considered as final and you can not bind more values
     to this instance
   * Order matters. You can not redefine previously binded values.
-  * If you have a pattern inside `repeat:` block and you bind value to it by calling `bind`
+  * If you have a pattern inside a `repeat:` block and you bind a value to it by calling `bind`
     instead of `repeat`, you've set the value for this pattern in all the iterations (order matters, remember).
-  * There is no unbind
+  * There is no `unbind`
   * Replacing happens immediately after binding.
 
 ### Simple Patterns ###
@@ -70,12 +70,12 @@ Templates uses a few types of patterns. This is just a list:
 
     require_once 'include/templatte.php';
 
-    # there is no need to specify directory and extension. Just the name of the file.
+    # there is no need to specify the directory and extension. Just the name of the file.
     $tpl = new Templatte('simple');
 
     # you can call bind by one array paramater and pass multiple rules
     $tpl->bind(array(
-        'TITLE', => 'Hello World',
+        'TITLE'  => 'Hello World',
         'NUM'    => 5,
     ));
 
@@ -129,11 +129,11 @@ Templates uses a few types of patterns. This is just a list:
 
 #### Result: ####
 
-`if:` pattern accepts single parameter treated as a boolean. If it's `true`,
-the block of text between the positive form of pattern tags stays in the result
-and whole negative forms goes away. There can be more positive and negative blocks.
+The `if:` pattern accepts a single parameter treated as a boolean. If it's `true`,
+the block of text between the positive form of pattern tags will be included in the result
+and everything inside the negative forms goes away. There can be more positive and negative blocks.
 
-If you do not bind any value to some `if:` patterns, it is same as binding `false`.
+If you do not bind any value to some `if:` patterns, it is the same as binding `false`.
 
     <section>
 
@@ -196,13 +196,13 @@ If you do not bind any value to some `if:` patterns, it is same as binding `fals
 ### Language (L:) pattern ###
 
 Language pattern is useful for creating multi-language websites.
-You can connect Templatte to some other class, which provides
+You can connect Templatté to some other class, which provides
 translations.
 
 Language patterns are enabled by default and translations are
-handled by dummy method Templatte::lang().
+handled by the dummy method `Templatte::lang()`.
 
-You can disable language patterns in constructor by seeting option
+You can disable language patterns in constructor by setting the option
 `langs` to `false`.
 
     <?php
@@ -225,18 +225,18 @@ You can disable language patterns in constructor by seeting option
 
     # simple language translation class
     class Lang {
-        protected static $langs = array(
+        protected static $strings = array(
             'Your Profile' => 'Váš profil',
             'Login'        => 'Prihlasovacie meno',
         );
 
         public static function get($key) {
-            return isset(self::$langs[$key]) ? self::$langs[$key] : $key;
+            return isset(self::$strings[$key]) ? self::$strings[$key] : $key;
         }
     }
 
-    Templatte:set_lang_handler('Lang', 'get');
-    # You can pass also an instance of the class and method doesn't have to be static
+    Templatte::set_lang_handler('Lang', 'get');
+    # You can pass also an instance of the class and the method doesn't have to be static
 
     $tpl = new Templatte('user/profile');
 
@@ -257,14 +257,14 @@ You can disable language patterns in constructor by seeting option
 
 ### Parameter patterns ###
 
-If you are using constants for naming URL and form parameters, you will find
+If you are using constants for naming URL parameters and form parameters, you will find
 these two patterns very useful.
 
 In your template file you just use patterns named `PARAM_*` and `PARVAL_` and
 they are automatically bound and replaces with their coresponding constant
 values (if such a constant exists).
 
-Parameter patterns are enabled by default. You can disable them by setting option
+Parameter patterns are enabled by default. You can disable them by setting the option
 `params` to `false`.
 
     $tpl = new Templatte('file-name', array(
@@ -326,17 +326,17 @@ Parameter patterns are enabled by default. You can disable them by setting optio
 There are two forms of URL patterns.
 
 The first is very similar to parameter patterns. If you have
-constants for your URL and all have prefix `URL_`, you can
-use patterns like `URL_*` in your template file. And they will
+constants for your URL and all have the prefix `URL_`, you can
+use them as patterns (`URL_*`) in your template file. And they will
 be automatically bound.
 
-The second is more powerful and is similar to language pattern.
-You can connect your URL providing method to Templatte and all
-of `URL:*` patterns in the template file will be passed to that
-method. So, you can have your own system for generating urls 
+The second is more powerful and is similar to the language pattern.
+You can connect your URL providing method to Templatté and all
+the `URL:*` patterns in the template file will be passed to that
+method. So, you can have your own system for generating urls
 directly connected to your template.
 
-You can disable both of these patterns in constructor by setting option
+You can disable both of these patterns in constructor by setting the option
 `urls` to `false`.
 
     $tpl = new Templatte('tpl-file', array(
@@ -348,7 +348,7 @@ You can disable both of these patterns in constructor by setting option
     <a href='{URL_BASE}'>Home Page</a>
 
     <article>
-        <h1><a href='{URL:/article/detail/7-reasons-why-use-templatte}'>7 reasons why use Templatté</a></h1>
+        <h1><a href='{URL:/article/detail/7-reasons-why-use-templatte}'>7 reasons why to use Templatté</a></h1>
 
         <p>I could not make up a single one.</p>
     </article>
@@ -364,7 +364,7 @@ You can disable both of these patterns in constructor by setting option
             '/article/detail' => '/item',
         );
 
-        public static public url($url) {
+        public static url($url) {
             if ($url{0} != '/') {
                 $url = '/' . $url;
             }
@@ -373,7 +373,7 @@ You can disable both of these patterns in constructor by setting option
                 $q_alias = preg_quote($each_alias, '~');
 
                 if (preg_match('~^'.$q_alias.'~', $url)) {
-                    $url = preg_replace('~^'.$q_alias.'~', $new_value, $up);
+                    $url = preg_replace('~^'.$q_alias.'~', $new_value, $url);
                     return $url;
                 }
             }
@@ -383,11 +383,11 @@ You can disable both of these patterns in constructor by setting option
     $tpl = new Templatte('article/listing');
 
 #### Result: ####
-    
+
     <a href='http://example.com/'>Home Page</a>
 
     <article>
-        <h1><a href='/item/7-reasons-why-use-templatte}'>7 reasons why use Templatté</a></h1>
+        <h1><a href='/item/7-reasons-why-use-templatte}'>7 reasons why to use Templatté</a></h1>
 
         <p>I could not make up a single one.</p>
     </article>
