@@ -12,7 +12,7 @@ Just copy the file somewhere in your PHP include path or your project
 directory.
 
 When looking for template files, Templatté looks by default for files with the file extension `.tpl` located in the `tpl` directory.
-So, for example: new perunTPl('sub/example') will look for the file "tpl/sub/example.tpl".
+So, for example: `new Templatte('sub/example')` will look for the file `tpl/sub/example.tpl`.
 You can change this behavior either globally by setting the constants `TEMPLATTE_DIR`
 and `TEMPLATTE_EXT`, or individually for each instance by settings options of the constructor.
 
