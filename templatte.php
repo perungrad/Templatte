@@ -24,11 +24,11 @@
 
 ######################################################################
 if (!defined('TEMPLATTE_DIR')) {
-    define('TEMPLATTE_DIR', 'tpl');
+    define('TEMPLATTE_DIR', 'views/templates');
 }
 
 if (!defined('TEMPLATTE_EXT')) {
-    define('TEMPLATTE_EXT', '.tpl');
+    define('TEMPLATTE_EXT', '.php');
 }
 
 ######################################################################
