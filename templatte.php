@@ -28,7 +28,7 @@ if (!defined('TEMPLATTE_DIR')) {
 }
 
 if (!defined('TEMPLATTE_EXT')) {
-    define('TEMPLATTE_EXT', '.php');
+    define('TEMPLATTE_EXT', '.tpl');
 }
 
 ######################################################################
