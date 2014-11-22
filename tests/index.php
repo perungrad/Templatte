@@ -11,7 +11,7 @@ ob_clean();
 
 $template->bind(array(
     'title'  => 'Templatté test',
-    'content' => $content,
+    '!content' => $content,
 ));
 
 echo $template;
