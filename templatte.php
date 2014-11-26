@@ -24,7 +24,7 @@
 
 ######################################################################
 if (!defined('TEMPLATTE_DIR')) {
-    define('TEMPLATTE_DIR', 'tpl');
+    define('TEMPLATTE_DIR', 'views/templates');
 }
 
 if (!defined('TEMPLATTE_EXT')) {
